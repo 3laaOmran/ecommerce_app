@@ -5,7 +5,7 @@ class AppAssets {
       "assets/icons/category_icon_selected.png";
   static const String selectedAccountIcon =
       "assets/icons/account_icon_selected.png";
-  static const String selectedAddToFavouriteIcon =
+  static const String selectedFavouriteIcon =
       "assets/icons/add_to_favourite.png";
 
   // Not selected icons
@@ -16,10 +16,15 @@ class AppAssets {
       "assets/icons/favourite_icon.png";
 
   // More Icons
+  static const String searchIcon = "assets/icons/search_icon.png";
   static const String editIcon = "assets/icons/edit.png";
-  static const String selectedFavouriteIcon =
+  static const String selectedAddToFavouriteIcon =
       "assets/icons/favourite_selected.png";
   static const String starIcon = "assets/icons/star.png";
   static const String routeLogo = "assets/icons/route_logo.png";
   static const String shoppingCart = "assets/icons/shopping_cart.png";
+  static const String routeLogoImage = "assets/images/route_logo_image.png";
+  static const String advertiseOne = "assets/images/advertise_one.png";
+  static const String advertiseTwo = "assets/images/advertise_two.png";
+  static const String advertiseThree = "assets/images/advertise_three.png";
 }
