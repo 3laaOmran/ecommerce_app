@@ -1,53 +1,54 @@
 import 'package:ecommerce_app/core/utils/app_assets.dart';
-import 'package:ecommerce_app/core/utils/app_colors.dart';
+import 'package:ecommerce_app/features/ui/screens/home_screen/cubit/home_screen_cubit.dart';
+import 'package:ecommerce_app/features/ui/screens/home_screen/cubit/home_screen_states.dart';
 import 'package:ecommerce_app/features/ui/screens/home_screen/tabs/home_tab/home_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
+  final cubit = HomeScreenCubit();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: HomeTab(),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(15),
-          topLeft: Radius.circular(15),
-        ),
-        child: BottomNavigationBar(
-            currentIndex: selectedIndex,
-            onTap: (index) {
-              selectedIndex = index;
-              setState(() {});
-            },
-            items: [
-              bottomNavigationBarItem(
-                  selectedImage: AppAssets.selectedHomeIcon,
-                  unSelectedImage: AppAssets.unSelectedHomeIcon,
-                  isSelected: selectedIndex == 0),
-              bottomNavigationBarItem(
-                  selectedImage: AppAssets.selectedCategoryIcon,
-                  unSelectedImage: AppAssets.unSelectedCategoryIcon,
-                  isSelected: selectedIndex == 1),
-              bottomNavigationBarItem(
-                  selectedImage: AppAssets.selectedFavouriteIcon,
-                  unSelectedImage: AppAssets.unSelectedFavouriteIcon,
-                  isSelected: selectedIndex == 2),
-              bottomNavigationBarItem(
-                  selectedImage: AppAssets.selectedAccountIcon,
-                  unSelectedImage: AppAssets.unSelectedAccountIcon,
-                  isSelected: selectedIndex == 3),
-            ]),
-      ),
+    return BlocBuilder<HomeScreenCubit, HomeScreenStates>(
+      bloc: cubit,
+      builder: (context, state) {
+        return Scaffold(
+          body: HomeTab(),
+          bottomNavigationBar: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(15),
+              topLeft: Radius.circular(15),
+            ),
+            child: BottomNavigationBar(
+                currentIndex: cubit.selectedIndex,
+                onTap: (index) {
+                  cubit.changeSelectedIndex(index);
+                },
+                items: [
+                  bottomNavigationBarItem(
+                      selectedImage: AppAssets.selectedHomeIcon,
+                      unSelectedImage: AppAssets.unSelectedHomeIcon,
+                      isSelected: cubit.selectedIndex == 0),
+                  bottomNavigationBarItem(
+                      selectedImage: AppAssets.selectedCategoryIcon,
+                      unSelectedImage: AppAssets.unSelectedCategoryIcon,
+                      isSelected: cubit.selectedIndex == 1),
+                  bottomNavigationBarItem(
+                      selectedImage: AppAssets.selectedFavouriteIcon,
+                      unSelectedImage: AppAssets.unSelectedFavouriteIcon,
+                      isSelected: cubit.selectedIndex == 2),
+                  bottomNavigationBarItem(
+                      selectedImage: AppAssets.selectedAccountIcon,
+                      unSelectedImage: AppAssets.unSelectedAccountIcon,
+                      isSelected: cubit.selectedIndex == 3),
+                ]),
+          ),
+        );
+      },
     );
   }
 }
