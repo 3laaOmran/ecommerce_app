@@ -1,6 +1,8 @@
 import 'package:ecommerce_app/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
+import 'app_styles.dart';
+
 class CustomDialog {
   static void showLoading({
     required BuildContext context,
@@ -15,14 +17,14 @@ class CustomDialog {
             content: Row(
               children: [
                 CircularProgressIndicator(
-                  color: AppColors.yellowColor,
+                  color: AppColors.primaryColor,
                 ),
                 SizedBox(
                   width: 15,
                 ),
                 Text(
                   message,
-                  // style: AppStyles.regular16White,
+                  style: AppStyles.semiBold20Primary,
                 )
               ],
             ),
@@ -52,7 +54,7 @@ class CustomDialog {
           },
           child: Text(
             posActionName,
-            // style: AppStyles.bold14Yellow,
+            style: AppStyles.semiBold20Primary,
           )));
     }
     if (negActionName != null) {
@@ -63,7 +65,7 @@ class CustomDialog {
           },
           child: Text(
             negActionName,
-            // style: AppStyles.bold14Yellow,
+            style: AppStyles.semiBold20Primary,
           )));
     }
     showDialog(
@@ -74,11 +76,11 @@ class CustomDialog {
             backgroundColor: AppColors.whiteColor,
             title: Text(
               title,
-              // style: AppStyles.bold20Yellow,
+              style: AppStyles.semiBold20Primary,
             ),
             content: Text(
               message,
-              // style: AppStyles.regular16White,
+              style: AppStyles.medium18Black,
             ),
             actions: actions,
           );
