@@ -29,10 +29,23 @@ class DefaultAppBar extends StatelessWidget {
                 controller: TextEditingController()),
           ),
           SizedBox(width: 25.w),
-          ImageIcon(
-            AssetImage(AppAssets.shoppingCart),
-            color: AppColors.primaryColor,
-            size: 32.sp,
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              ImageIcon(
+                AssetImage(AppAssets.shoppingCart),
+                color: AppColors.primaryColor,
+                size: 32.sp,
+              ),
+              CircleAvatar(
+                radius: 9,
+                backgroundColor: AppColors.greenColor,
+                child: Text(
+                  '5',
+                  style: AppStyles.regular11White,
+                ),
+              )
+            ],
           )
         ],
       )

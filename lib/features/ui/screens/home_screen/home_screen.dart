@@ -25,9 +25,7 @@ class HomeScreen extends StatelessWidget {
             ),
             child: BottomNavigationBar(
                 currentIndex: cubit.selectedIndex,
-                onTap: (index) {
-                  cubit.changeSelectedIndex(index);
-                },
+                onTap: cubit.changeSelectedIndex,
                 items: [
                   bottomNavigationBarItem(
                       selectedImage: AppAssets.selectedHomeIcon,

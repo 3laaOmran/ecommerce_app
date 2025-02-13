@@ -10,9 +10,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/di/di.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   Bloc.observer = MyBlocObserver();
+  await ScreenUtil.ensureScreenSize();
   runApp(const ECommerceApp());
 }
 class ECommerceApp extends StatelessWidget {
@@ -29,7 +31,7 @@ class ECommerceApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           themeMode: ThemeMode.light,
-          initialRoute: AppRoutes.loginRoute,
+          initialRoute: AppRoutes.homeRoute,
           routes: {
             AppRoutes.loginRoute: (context) => LoginScreen(),
             AppRoutes.registerRoute: (context) => RegisterScreen(),
