@@ -41,7 +41,9 @@ class RegisterScreen extends StatelessWidget {
               context: context,
               title: 'Success',
               posActionName: 'Ok',
-              posAction: () {},
+              posAction: () {
+                Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+              },
               message: state.registerResponseEntity.message!);
         }
       },
@@ -164,9 +166,7 @@ class RegisterScreen extends StatelessWidget {
                         question: 'Already Have Account? ',
                         textButtonText: 'Login',
                         onPressed: () {
-                          // Navigator.pop(context);
-                          Navigator.pushReplacementNamed(
-                              context, AppRoutes.homeRoute);
+                          Navigator.pop(context);
                         })
                   ],
                 ),
