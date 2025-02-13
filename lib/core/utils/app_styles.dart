@@ -54,6 +54,11 @@ class AppStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.primaryDark,
   );
+  static TextStyle regular11White = GoogleFonts.poppins(
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    color: AppColors.whiteColor,
+  );
   static TextStyle regular14PrimaryDark = GoogleFonts.poppins(
     fontSize: 14,
     fontWeight: FontWeight.w400,
