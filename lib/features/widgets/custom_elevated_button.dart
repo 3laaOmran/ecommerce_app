@@ -11,6 +11,7 @@ class CustomElevatedButton extends StatelessWidget {
   final Widget? buttonWidget;
   final void Function() onPressed;
   final BorderSide? border;
+  final double? radios;
 
   const CustomElevatedButton(
       {super.key,
@@ -19,7 +20,8 @@ class CustomElevatedButton extends StatelessWidget {
       this.border,
       this.bgColor,
       this.buttonWidget,
-      this.buttonTextStyle});
+      this.buttonTextStyle,
+      this.radios});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class CustomElevatedButton extends StatelessWidget {
                     width: 2.w,
                     color: AppColors.whiteColor,
                   ),
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: BorderRadius.circular(radios ?? 16.r),
             ),
             backgroundColor: bgColor ?? AppColors.whiteColor,
           ),

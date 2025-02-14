@@ -4,6 +4,7 @@ import 'package:ecommerce_app/core/utils/my_bloc_observer.dart';
 import 'package:ecommerce_app/features/ui/auth/login/login_screen.dart';
 import 'package:ecommerce_app/features/ui/auth/register/register_screen.dart';
 import 'package:ecommerce_app/features/ui/screens/home_screen/home_screen.dart';
+import 'package:ecommerce_app/features/ui/screens/home_screen/tabs/product_tab/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,6 +37,7 @@ class ECommerceApp extends StatelessWidget {
             AppRoutes.loginRoute: (context) => LoginScreen(),
             AppRoutes.registerRoute: (context) => RegisterScreen(),
             AppRoutes.homeRoute: (context) => HomeScreen(),
+            AppRoutes.productRoute: (context) => ProductDetails(),
           },
         );
       },

@@ -19,119 +19,114 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            DefaultAppBar(),
-            SizedBox(height: 16.h),
-            ImageSlideshow(
-              width: double.infinity,
-              height: 200.h,
-              indicatorColor: AppColors.primaryColor,
-              initialPage: 0,
-              indicatorBottomPadding: 15.h,
-              indicatorPadding: 8.w,
-              indicatorRadius: 5.r,
-              indicatorBackgroundColor: AppColors.whiteColor,
-              autoPlayInterval: 3000,
-              isLoop: true,
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(15.r),
-                    child: Image.asset(
-                      AppAssets.advertiseOne,
-                      fit: BoxFit.cover,
-                    )),
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(15.r),
-                    child: Image.asset(
-                      AppAssets.advertiseTwo,
-                      fit: BoxFit.cover,
-                    )),
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(15.r),
-                    child: Image.asset(
-                      AppAssets.advertiseThree,
-                      fit: BoxFit.cover,
-                    )),
-              ],
-            ),
-            SizedBox(height: 24.h),
-            itemAndViewAll(title: 'Category', onViewAllPressed: () {}),
-            BlocBuilder<HomeTabCubit, HomeTabStates>(
-              bloc: cubit,
-              builder: (context, state) {
-                if (state is HomeTabLoadingState) {
-                  return SizedBox(
-                    height: 335.h,
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ImageSlideshow(
+            width: double.infinity,
+            height: 200.h,
+            indicatorColor: AppColors.primaryColor,
+            initialPage: 0,
+            indicatorBottomPadding: 15.h,
+            indicatorPadding: 8.w,
+            indicatorRadius: 5.r,
+            indicatorBackgroundColor: AppColors.whiteColor,
+            autoPlayInterval: 3000,
+            isLoop: true,
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    AppAssets.advertiseOne,
+                    fit: BoxFit.cover,
+                  )),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    AppAssets.advertiseTwo,
+                    fit: BoxFit.cover,
+                  )),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    AppAssets.advertiseThree,
+                    fit: BoxFit.cover,
+                  )),
+            ],
+          ),
+          SizedBox(height: 24.h),
+          itemAndViewAll(title: 'Category', onViewAllPressed: () {}),
+          BlocBuilder<HomeTabCubit, HomeTabStates>(
+            bloc: cubit,
+            builder: (context, state) {
+              if (state is HomeTabLoadingState) {
+                return SizedBox(
+                  height: 335.h,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
                     ),
-                  );
-                } else if (state is HomeTabSuccessState) {
-                  return cubit.categoriesList.isNotEmpty
-                      ? gridViewWidget(categoryList: cubit.categoriesList)
-                      : SizedBox(
-                          height: 335.h,
-                          child: Center(
-                              child: Text(
-                            'Some Thing Went Wrong',
-                            style: AppStyles.medium18PrimaryDark,
-                          )));
-                } else if (state is HomeTabErrorState) {
-                  return SizedBox(
-                      height: 335.h,
-                      child: Center(
-                          child: Text(
-                        state.errors.errorMsg,
-                        style: AppStyles.medium18PrimaryDark,
-                      )));
-                }
-                return Container();
-              },
-            ),
-            itemAndViewAll(title: 'Brands', onViewAllPressed: () {}),
-            BlocBuilder<HomeTabCubit, HomeTabStates>(
-              bloc: cubit,
-              builder: (context, state) {
-                if (state is HomeTabLoadingState) {
-                  return SizedBox(
+                  ),
+                );
+              } else if (state is HomeTabSuccessState) {
+                return cubit.categoriesList.isNotEmpty
+                    ? gridViewWidget(categoryList: cubit.categoriesList)
+                    : SizedBox(
+                        height: 335.h,
+                        child: Center(
+                            child: Text(
+                          'Some Thing Went Wrong',
+                          style: AppStyles.medium18PrimaryDark,
+                        )));
+              } else if (state is HomeTabErrorState) {
+                return SizedBox(
                     height: 335.h,
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ),
+                    child: Center(
+                        child: Text(
+                      state.errors.errorMsg,
+                      style: AppStyles.medium18PrimaryDark,
+                    )));
+              }
+              return Container();
+            },
+          ),
+          itemAndViewAll(title: 'Brands', onViewAllPressed: () {}),
+          BlocBuilder<HomeTabCubit, HomeTabStates>(
+            bloc: cubit,
+            builder: (context, state) {
+              if (state is HomeTabLoadingState) {
+                return SizedBox(
+                  height: 335.h,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
                     ),
-                  );
-                } else if (state is HomeTabSuccessState) {
-                  return cubit.brandsList.isNotEmpty
-                      ? gridViewWidget(brandList: cubit.brandsList)
-                      : SizedBox(
-                          height: 335.h,
-                          child: Center(
-                              child: Text(
-                            'Some Thing Went Wrong',
-                            style: AppStyles.medium18PrimaryDark,
-                          )));
-                } else if (state is HomeTabErrorState) {
-                  return SizedBox(
-                      height: 335.h,
-                      child: Center(
-                          child: Text(
-                        state.errors.errorMsg,
-                        style: AppStyles.medium18PrimaryDark,
-                      )));
-                }
-                return Container();
-              },
-            ),
-            SizedBox(height: 20.h),
-          ],
-        ),
+                  ),
+                );
+              } else if (state is HomeTabSuccessState) {
+                return cubit.brandsList.isNotEmpty
+                    ? gridViewWidget(brandList: cubit.brandsList)
+                    : SizedBox(
+                        height: 335.h,
+                        child: Center(
+                            child: Text(
+                          'Some Thing Went Wrong',
+                          style: AppStyles.medium18PrimaryDark,
+                        )));
+              } else if (state is HomeTabErrorState) {
+                return SizedBox(
+                    height: 335.h,
+                    child: Center(
+                        child: Text(
+                      state.errors.errorMsg,
+                      style: AppStyles.medium18PrimaryDark,
+                    )));
+              }
+              return Container();
+            },
+          ),
+          SizedBox(height: 20.h),
+        ],
       ),
     );
   }
