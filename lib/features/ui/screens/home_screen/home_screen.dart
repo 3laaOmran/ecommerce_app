@@ -1,7 +1,7 @@
 import 'package:ecommerce_app/core/utils/app_assets.dart';
 import 'package:ecommerce_app/features/ui/screens/home_screen/cubit/home_screen_cubit.dart';
 import 'package:ecommerce_app/features/ui/screens/home_screen/cubit/home_screen_states.dart';
-import 'package:ecommerce_app/features/ui/screens/home_screen/tabs/home_tab/home_tab.dart';
+import 'package:ecommerce_app/features/ui/screens/home_screen/widgets/default_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +17,15 @@ class HomeScreen extends StatelessWidget {
       bloc: cubit,
       builder: (context, state) {
         return Scaffold(
-          body: HomeTab(),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              children: [
+                cubit.selectedIndex != 3 ? DefaultAppBar() : Container(),
+                Expanded(child: cubit.screens[cubit.selectedIndex]),
+              ],
+            ),
+          ),
           bottomNavigationBar: ClipRRect(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(15),

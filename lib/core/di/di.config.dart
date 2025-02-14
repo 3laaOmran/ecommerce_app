@@ -26,12 +26,15 @@ import '../../domain/repositories/data_sources/remote_data_sources/home_remote_d
 import '../../domain/repositories/home/home_repository.dart' as _i22;
 import '../../domain/use_cases/get_all_brands_use_case.dart' as _i773;
 import '../../domain/use_cases/get_all_categories_use_case.dart' as _i201;
+import '../../domain/use_cases/get_all_products_use_case.dart' as _i939;
 import '../../domain/use_cases/login_use_case.dart' as _i471;
 import '../../domain/use_cases/register_use_case.dart' as _i479;
 import '../../features/ui/auth/login/cubit/ligin_cubit.dart' as _i404;
 import '../../features/ui/auth/register/cubit/register_cubit.dart' as _i547;
 import '../../features/ui/screens/home_screen/tabs/home_tab/cubit/home_tab_cubit.dart'
     as _i257;
+import '../../features/ui/screens/home_screen/tabs/product_tab/cubit/product_tab_cubit.dart'
+    as _i1034;
 import '../api/api_manager.dart' as _i1047;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -67,6 +70,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i201.GetAllCategoriesUseCase>(() =>
         _i201.GetAllCategoriesUseCase(
             homeRepository: gh<_i22.HomeRepository>()));
+    gh.factory<_i939.GetAllProductsUseCase>(() =>
+        _i939.GetAllProductsUseCase(homeRepository: gh<_i22.HomeRepository>()));
+    gh.factory<_i1034.ProductTabCubit>(() => _i1034.ProductTabCubit(
+        getAllProductsUseCase: gh<_i939.GetAllProductsUseCase>()));
     gh.factory<_i257.HomeTabCubit>(() => _i257.HomeTabCubit(
           getAllCategoriesUseCase: gh<_i201.GetAllCategoriesUseCase>(),
           getAllBrandsUseCase: gh<_i773.GetAllBrandsUseCase>(),
