@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'core/cashe/shared_preferences_utils.dart';
 import 'core/di/di.dart';
 
 void main() async {
@@ -16,10 +17,22 @@ void main() async {
   configureDependencies();
   Bloc.observer = MyBlocObserver();
   await ScreenUtil.ensureScreenSize();
-  runApp(const ECommerceApp());
+  await SharedPreferencesUtils.init();
+  String routeName;
+  var token = SharedPreferencesUtils.getData(key: 'token');
+  if (token == null) {
+    routeName = AppRoutes.loginRoute;
+  } else {
+    routeName = AppRoutes.homeRoute;
+  }
+  runApp(ECommerceApp(
+    routeName: routeName,
+  ));
 }
 class ECommerceApp extends StatelessWidget {
-  const ECommerceApp({super.key});
+  final String routeName;
+
+  ECommerceApp({super.key, required this.routeName});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +45,7 @@ class ECommerceApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           themeMode: ThemeMode.light,
-          initialRoute: AppRoutes.homeRoute,
+          initialRoute: routeName,
           routes: {
             AppRoutes.loginRoute: (context) => LoginScreen(),
             AppRoutes.registerRoute: (context) => RegisterScreen(),
