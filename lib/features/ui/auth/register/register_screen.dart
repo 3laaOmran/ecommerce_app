@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/core/cashe/shared_preferences_utils.dart';
 import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/core/utils/app_assets.dart';
 import 'package:ecommerce_app/core/utils/app_colors.dart';
@@ -42,6 +43,8 @@ class RegisterScreen extends StatelessWidget {
               title: 'Success',
               posActionName: 'Ok',
               posAction: () {
+                SharedPreferencesUtils.saveData(
+                    key: 'token', value: state.registerResponseEntity.token);
                 Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
               },
               message: state.registerResponseEntity.message!);

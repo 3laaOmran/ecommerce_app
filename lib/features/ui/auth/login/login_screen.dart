@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/core/cashe/shared_preferences_utils.dart';
 import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/core/utils/app_assets.dart';
 import 'package:ecommerce_app/core/utils/app_colors.dart';
@@ -41,6 +42,8 @@ class LoginScreen extends StatelessWidget {
               title: 'Success',
               posActionName: 'Ok',
               posAction: () {
+                SharedPreferencesUtils.saveData(
+                    key: 'token', value: state.loginResponseEntity.token);
                 Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
               },
               message: state.loginResponseEntity.message!);
