@@ -1,8 +1,13 @@
+import 'package:ecommerce_app/core/cashe/shared_preferences_utils.dart';
 import 'package:ecommerce_app/core/utils/app_assets.dart';
 import 'package:ecommerce_app/core/utils/app_colors.dart';
+import 'package:ecommerce_app/core/utils/app_routes.dart';
 import 'package:ecommerce_app/core/utils/app_styles.dart';
+import 'package:ecommerce_app/features/ui/screens/home_screen/tabs/product_tab/cubit/product_tab_cubit.dart';
+import 'package:ecommerce_app/features/ui/screens/home_screen/tabs/product_tab/cubit/product_tab_states.dart';
 import 'package:ecommerce_app/features/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DefaultAppBar extends StatelessWidget {
@@ -29,23 +34,33 @@ class DefaultAppBar extends StatelessWidget {
                 controller: TextEditingController()),
           ),
           SizedBox(width: 25.w),
-          Stack(
-            alignment: Alignment.topRight,
-            children: [
-              ImageIcon(
-                AssetImage(AppAssets.shoppingCart),
-                color: AppColors.primaryColor,
-                size: 32.sp,
-              ),
-              CircleAvatar(
-                radius: 9,
-                backgroundColor: AppColors.greenColor,
-                child: Text(
-                  '5',
-                  style: AppStyles.regular11White,
-                ),
-              )
-            ],
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.cartRoute);
+            },
+            child: BlocBuilder<ProductTabCubit, ProductTabStates>(
+              builder: (context, state) {
+                return Badge(
+                  alignment: Alignment.topRight,
+                  backgroundColor: AppColors.greenColor,
+                  padding: EdgeInsets.all(2),
+                  label: Text(
+                    ProductTabCubit.get(context).numOfCartItems == 0
+                        ? SharedPreferencesUtils.getData(key: 'numItems')
+                            .toString()
+                        : ProductTabCubit.get(context)
+                            .numOfCartItems
+                            .toString(),
+                    style: AppStyles.regular11White,
+                  ),
+                  child: ImageIcon(
+                    AssetImage(AppAssets.shoppingCart),
+                    color: AppColors.primaryColor,
+                    size: 32.sp,
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),

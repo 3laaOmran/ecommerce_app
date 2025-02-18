@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../core/utils/flutter_toast.dart';
 import '../../widgets/product_item.dart';
 
 class ProductsTab extends StatelessWidget {
@@ -34,30 +35,47 @@ class ProductsTab extends StatelessWidget {
             ),
           );
         } else if (state is GetAllProductsSuccessState) {
-          return Column(
-            children: [
-              Expanded(
-                child: GridView.builder(
-                    padding: EdgeInsets.only(bottom: 20.h),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10.h,
-                        crossAxisSpacing: 10.w,
-                        childAspectRatio: 2 / 3.08.h),
-                    itemCount: state.productResponseEntity.data!.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, AppRoutes.productRoute,
-                                arguments:
-                                    state.productResponseEntity.data![index]);
-                          },
-                          child: ProductItem(
-                            product: state.productResponseEntity.data![index],
-                          ));
-                    }),
-              ),
-            ],
+          return BlocListener<ProductTabCubit, ProductTabStates>(
+            listener: (context, state) {
+              if (state is AddToCartSuccessState) {
+                ShowToast.toastMsg(
+                    msg: state.addToCartResponseEntity.message ??
+                        'Added Successfully',
+                    bgColor: AppColors.greenColor,
+                    textColor: AppColors.whiteColor);
+              } else if (state is AddToCartErrorState) {
+                ShowToast.toastMsg(
+                    msg: state.errors.errorMsg,
+                    bgColor: AppColors.redColor,
+                    textColor: AppColors.whiteColor);
+              }
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                      padding: EdgeInsets.only(bottom: 20.h),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10.h,
+                          crossAxisSpacing: 10.w,
+                          childAspectRatio: 2 / 3.08.h),
+                      itemCount: state.productResponseEntity.data!.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.productRoute,
+                                  arguments:
+                                      state.productResponseEntity.data![index]);
+                            },
+                            child: ProductItem(
+                              product: state.productResponseEntity.data![index],
+                            ));
+                      }),
+                ),
+              ],
+            ),
           );
         }
         return Container();
