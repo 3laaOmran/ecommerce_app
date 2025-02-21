@@ -7,4 +7,7 @@ abstract class CartRepository {
 
   Future<Either<Failures, GetCartResponseEntity>> deleteCartProduct(
       String productId);
+
+  Future<Either<Failures, GetCartResponseEntity>> updateCountCartProduct(
+      String productId, int count);
 }

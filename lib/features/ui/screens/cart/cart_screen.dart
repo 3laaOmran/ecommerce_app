@@ -66,7 +66,8 @@ class CartScreen extends StatelessWidget {
           bloc: CartCubit.get(context)..getCartProducts(),
           builder: (context, state) {
             if (state is GetCartProductsSuccessState ||
-                state is DeleteCartProductSuccessState) {
+                state is DeleteCartProductSuccessState ||
+                state is UpdateCountInCartSuccessState) {
               return Stack(
               children: [
                 ListView.builder(
@@ -94,7 +95,7 @@ class CartScreen extends StatelessWidget {
                               style: AppStyles.medium18PrimaryDarkLight,
                             ),
                             Text(
-                                'EGP ${state is GetCartProductsSuccessState ? state.getCartResponseEntity.data!.totalCartPrice : state is DeleteCartProductSuccessState ? state.getCartResponseEntity.data!.totalCartPrice : 0}',
+                                'EGP ${state is GetCartProductsSuccessState ? state.getCartResponseEntity.data!.totalCartPrice : state is DeleteCartProductSuccessState ? state.getCartResponseEntity.data!.totalCartPrice : state is UpdateCountInCartSuccessState ? state.getCartResponseEntity.data!.totalCartPrice : 0.0}',
                                 style: AppStyles.medium18PrimaryDark,
                             ),
                           ],
@@ -232,20 +233,36 @@ class CartItem extends StatelessWidget {
                             color: AppColors.primaryColor),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.remove_circle_outline,
-                              color: AppColors.whiteColor,
-                              size: 20,
+                            InkWell(
+                              onTap: () {
+                                int count = cartDataEntity.count!.toInt();
+                                count--;
+                                CartCubit.get(context).updateCountInCart(
+                                    cartDataEntity.product?.id ?? '', count);
+                              },
+                              child: Icon(
+                                Icons.remove_circle_outline,
+                                color: AppColors.whiteColor,
+                                size: 20,
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
                               child: Text(cartDataEntity.count.toString(),
                                   style: AppStyles.medium18White),
                             ),
-                            Icon(
-                              Icons.add_circle_outline,
-                              color: AppColors.whiteColor,
-                              size: 20,
+                            InkWell(
+                              onTap: () {
+                                int count = cartDataEntity.count!.toInt();
+                                count++;
+                                CartCubit.get(context).updateCountInCart(
+                                    cartDataEntity.product?.id ?? '', count);
+                              },
+                              child: Icon(
+                                Icons.add_circle_outline,
+                                color: AppColors.whiteColor,
+                                size: 20,
+                              ),
                             ),
                           ],
                         ),

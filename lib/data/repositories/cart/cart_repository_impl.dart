@@ -24,4 +24,12 @@ class CartRepositoryImpl extends CartRepository {
     var either = await cartRemoteDataSource.deleteCartProduct(productId);
     return either.fold((error) => Left(error), (response) => Right(response));
   }
+
+  @override
+  Future<Either<Failures, GetCartResponseEntity>> updateCountCartProduct(
+      String productId, int count) async {
+    var either =
+        await cartRemoteDataSource.updateCountCartProduct(productId, count);
+    return either.fold((error) => Left(error), (response) => Right(response));
+  }
 }
