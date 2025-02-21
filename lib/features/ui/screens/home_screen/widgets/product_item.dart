@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/domain/entities/product_response_entity.dart';
+import 'package:ecommerce_app/features/ui/screens/home_screen/tabs/product_tab/cubit/product_tab_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -105,7 +106,10 @@ class ProductItem extends StatelessWidget {
                         ),
                         Spacer(),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            ProductTabCubit.get(context)
+                                .addToCart(productId: product.id ?? "");
+                          },
                           child: Icon(
                             Icons.add_circle_outlined,
                             color: AppColors.primaryColor,

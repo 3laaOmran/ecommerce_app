@@ -24,6 +24,7 @@ class ProfileTab extends StatelessWidget {
           IconButton(
               onPressed: () {
                 SharedPreferencesUtils.removeData(key: 'token');
+                SharedPreferencesUtils.removeData(key: 'numItems');
                 Navigator.pushNamedAndRemoveUntil(
                     context, AppRoutes.loginRoute, (route) => false);
               },

@@ -31,4 +31,32 @@ class ApiManager {
           headers: headers,
         ));
   }
+
+  Future<Response> deleteData(
+      {required String endPoint,
+      Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? headers,
+      Object? body}) {
+    return dio.delete(ApiConstants.baseUrl + endPoint,
+        data: body,
+        queryParameters: queryParameters,
+        options: Options(
+          validateStatus: (status) => true,
+          headers: headers,
+        ));
+  }
+
+  Future<Response> updateData(
+      {required String endPoint,
+      Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? headers,
+      Object? body}) {
+    return dio.put(ApiConstants.baseUrl + endPoint,
+        data: body,
+        queryParameters: queryParameters,
+        options: Options(
+          validateStatus: (status) => true,
+          headers: headers,
+        ));
+  }
 }

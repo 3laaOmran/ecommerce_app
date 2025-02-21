@@ -3,7 +3,9 @@ import 'package:ecommerce_app/core/utils/app_theme.dart';
 import 'package:ecommerce_app/core/utils/my_bloc_observer.dart';
 import 'package:ecommerce_app/features/ui/auth/login/login_screen.dart';
 import 'package:ecommerce_app/features/ui/auth/register/register_screen.dart';
+import 'package:ecommerce_app/features/ui/screens/cart/cart_screen.dart';
 import 'package:ecommerce_app/features/ui/screens/home_screen/home_screen.dart';
+import 'package:ecommerce_app/features/ui/screens/home_screen/tabs/product_tab/cubit/product_tab_cubit.dart';
 import 'package:ecommerce_app/features/ui/screens/home_screen/tabs/product_tab/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,12 +13,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/cashe/shared_preferences_utils.dart';
 import 'core/di/di.dart';
+import 'features/ui/screens/cart/cubit/cart_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await ScreenUtil.ensureScreenSize();
   configureDependencies();
   Bloc.observer = MyBlocObserver();
-  await ScreenUtil.ensureScreenSize();
   await SharedPreferencesUtils.init();
   String routeName;
   var token = SharedPreferencesUtils.getData(key: 'token');
@@ -25,8 +28,14 @@ void main() async {
   } else {
     routeName = AppRoutes.homeRoute;
   }
-  runApp(ECommerceApp(
-    routeName: routeName,
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (context) => getIt<ProductTabCubit>()),
+      BlocProvider(create: (context) => getIt<CartCubit>()),
+    ],
+    child: ECommerceApp(
+      routeName: routeName,
+    ),
   ));
 }
 class ECommerceApp extends StatelessWidget {
@@ -51,6 +60,7 @@ class ECommerceApp extends StatelessWidget {
             AppRoutes.registerRoute: (context) => RegisterScreen(),
             AppRoutes.homeRoute: (context) => HomeScreen(),
             AppRoutes.productRoute: (context) => ProductDetails(),
+            AppRoutes.cartRoute: (context) => CartScreen(),
           },
         );
       },
