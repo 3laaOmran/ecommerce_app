@@ -5,4 +5,7 @@ import '../../../../core/errors/failures.dart';
 
 abstract class CartRemoteDataSource {
   Future<Either<Failures, GetCartResponseEntity>> getCartProducts();
+
+  Future<Either<Failures, GetCartResponseEntity>> deleteCartProduct(
+      String productId);
 }

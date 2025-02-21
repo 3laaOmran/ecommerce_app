@@ -16,3 +16,17 @@ class GetCartProductsSuccessState extends CartStates {
 
   GetCartProductsSuccessState({required this.getCartResponseEntity});
 }
+
+class DeleteCartProductLoadingState extends CartStates {}
+
+class DeleteCartProductErrorState extends CartStates {
+  Failures errors;
+
+  DeleteCartProductErrorState({required this.errors});
+}
+
+class DeleteCartProductSuccessState extends CartStates {
+  GetCartResponseEntity getCartResponseEntity;
+
+  DeleteCartProductSuccessState({required this.getCartResponseEntity});
+}

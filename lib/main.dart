@@ -13,12 +13,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/cashe/shared_preferences_utils.dart';
 import 'core/di/di.dart';
+import 'features/ui/screens/cart/cubit/cart_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await ScreenUtil.ensureScreenSize();
   configureDependencies();
   Bloc.observer = MyBlocObserver();
-  await ScreenUtil.ensureScreenSize();
   await SharedPreferencesUtils.init();
   String routeName;
   var token = SharedPreferencesUtils.getData(key: 'token');
@@ -30,6 +31,7 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => getIt<ProductTabCubit>()),
+      BlocProvider(create: (context) => getIt<CartCubit>()),
     ],
     child: ECommerceApp(
       routeName: routeName,

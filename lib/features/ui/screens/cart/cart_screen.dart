@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/core/cashe/shared_preferences_utils.dart';
-import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/core/utils/app_assets.dart';
 import 'package:ecommerce_app/core/utils/app_styles.dart';
+import 'package:ecommerce_app/core/utils/flutter_toast.dart';
 import 'package:ecommerce_app/domain/entities/get_cart_response_entity.dart';
 import 'package:ecommerce_app/features/ui/screens/cart/cubit/cart_cubit.dart';
 import 'package:ecommerce_app/features/ui/screens/cart/cubit/cart_states.dart';
@@ -19,7 +19,7 @@ import '../../../../core/utils/app_colors.dart';
 class CartScreen extends StatelessWidget {
   CartScreen({super.key});
 
-  final cubit = getIt<CartCubit>();
+  // final cubit = getIt<CartCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -53,19 +53,28 @@ class CartScreen extends StatelessWidget {
           SizedBox(width: 18.w),
         ],
       ),
-      body: BlocBuilder<CartCubit, CartStates>(
-        bloc: cubit..getCartProducts(),
-        builder: (context, state) {
-          if (state is GetCartProductsSuccessState) {
-            return Stack(
+      body: BlocListener<CartCubit, CartStates>(
+        listener: (context, state) {
+          if (state is DeleteCartProductSuccessState) {
+            ShowToast.toastMsg(
+                msg: 'Deleted Successfully',
+                bgColor: AppColors.greenColor,
+                textColor: AppColors.whiteColor);
+          }
+        },
+        child: BlocBuilder<CartCubit, CartStates>(
+          bloc: CartCubit.get(context)..getCartProducts(),
+          builder: (context, state) {
+            if (state is GetCartProductsSuccessState ||
+                state is DeleteCartProductSuccessState) {
+              return Stack(
               children: [
                 ListView.builder(
                   padding: EdgeInsets.only(bottom: 130.h),
-                  itemCount: state.getCartResponseEntity.data!.products!.length,
-                  itemBuilder: (context, index) => CartItem(
-                    cartDataEntity:
-                        state.getCartResponseEntity.data!.products![index],
-                  ),
+                    itemCount: CartCubit.get(context).cartItems.length,
+                    itemBuilder: (context, index) => CartItem(
+                      cartDataEntity: CartCubit.get(context).cartItems[index],
+                    ),
                 ),
                 Positioned(
                   bottom: 0,
@@ -85,8 +94,8 @@ class CartScreen extends StatelessWidget {
                               style: AppStyles.medium18PrimaryDarkLight,
                             ),
                             Text(
-                              'EGP ${state.getCartResponseEntity.data!.totalCartPrice}',
-                              style: AppStyles.medium18PrimaryDark,
+                                'EGP ${state is GetCartProductsSuccessState ? state.getCartResponseEntity.data!.totalCartPrice : state is DeleteCartProductSuccessState ? state.getCartResponseEntity.data!.totalCartPrice : 0}',
+                                style: AppStyles.medium18PrimaryDark,
                             ),
                           ],
                         ),
@@ -136,6 +145,7 @@ class CartScreen extends StatelessWidget {
             );
           }
         },
+      ),
       ),
     );
   }
@@ -197,7 +207,10 @@ class CartItem extends StatelessWidget {
                         style: AppStyles.medium18PrimaryDark,
                       )),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            CartCubit.get(context).deleteCartProduct(
+                                cartDataEntity.product?.id ?? '');
+                          },
                           icon: Icon(
                             CupertinoIcons.delete,
                             color: AppColors.primaryColor,

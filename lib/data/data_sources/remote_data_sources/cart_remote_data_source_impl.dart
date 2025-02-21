@@ -39,4 +39,33 @@ class CartRemoteDataSourceImpl extends CartRemoteDataSource {
       return Left(ServerError(errorMsg: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failures, GetCartResponseDm>> deleteCartProduct(
+      String productId) async {
+    var token = SharedPreferencesUtils.getData(key: 'token');
+    try {
+      final List<ConnectivityResult> connectivityResult =
+          await Connectivity().checkConnectivity();
+      if (connectivityResult.contains(ConnectivityResult.wifi) ||
+          connectivityResult.contains(ConnectivityResult.mobile)) {
+        var response = await apiManager.deleteData(
+            endPoint: '${EndPoints.cart}/$productId',
+            headers: {'token': token});
+
+        var deleteCartProductResponse =
+            GetCartResponseDm.fromJson(response.data);
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          return Right(deleteCartProductResponse);
+        } else {
+          return Left(
+              ServerError(errorMsg: deleteCartProductResponse.message!));
+        }
+      } else {
+        return Left(NetworkError(errorMsg: 'No Internet Connection'));
+      }
+    } catch (e) {
+      return Left(ServerError(errorMsg: e.toString()));
+    }
+  }
 }
